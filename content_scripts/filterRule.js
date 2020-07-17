@@ -4,7 +4,7 @@ let filterRules = {
 			let oContentLeft = document.getElementById('content_left');
 			let oContentRight = document.getElementById('content_right');
 
-			if(!oContentLeft || oContentRight){
+			if(!oContentLeft || !oContentRight){
 				return
 			}
 			let list = [...oContentLeft.children];
