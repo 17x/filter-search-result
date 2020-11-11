@@ -1,2 +1,2 @@
 # filter-search-result
-filter baidu.com filter result
+filter baidu.com search result
