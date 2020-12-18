@@ -24,7 +24,6 @@ if(match){
 	}
 
 	const callback = function(mutationsList, observer) {
-		console.log(1);
 		rule && rule.removeAds();
 		// console.log(mutationsList);
 		/*for(let mutation of mutationsList) {
