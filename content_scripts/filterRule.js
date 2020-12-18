@@ -48,30 +48,25 @@ let filterRules = {
 	},
 	'google'   : {
 		removeAds: () => {
-			return;
-			console.log(window);
-			let oContentLeft = document.getElementById('content_left');
-			let oContentRight = document.getElementById('content_right');
-			let list = [...oContentLeft.children];
-			console.log(
-				oContentLeft.children.length,
-				oContentRight.children.length
-			);
-			Array.prototype.push.apply(list, [...oContentRight.children]);
+			let oTADs = document.getElementById('tads');
+			if(!oTADs)return;
+			let list = [
+				...oTADs.getElementsByTagName('div')
+			];
 
-			console.log(list.length);
+			// console.log(list);
 
 			list.map(ele => {
-				if(ele.innerText.indexOf('广告') !== -1){
-					let rect = ele.getBoundingClientRect();
+				// if(ele.innerText.indexOf('广告') !== -1){}
+				let rect = ele.getBoundingClientRect();
 
-					ele.style.backgroundColor = '#ECECEC';
-					ele.style.width = rect.width + 'px';
-					ele.style.height = rect.height + 'px';
-					ele.style.lineHeight = rect.height + 'px';
-					ele.style.textAlign = 'center';
-					ele.innerHTML = '<span>AD</span>';
-				}
+				ele.style.backgroundColor = '#ECECEC';
+				ele.style.width = rect.width + 'px';
+				ele.style.height = rect.height + 'px';
+				ele.style.lineHeight = rect.height + 'px';
+				ele.style.textAlign = 'center';
+				ele.innerHTML = '<span>AD</span>';
+
 			});
 		}
 	},

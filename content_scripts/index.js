@@ -1,15 +1,30 @@
-let lists = ['baidu.com', 'google.com'];
+// let lists = ['baidu.com', 'google.com'];
 let rule = null;
 let reg = /baidu.com|google.com/g;
 let match = location.host.match(reg);
 if(match){
 	rule = filterRules[match[0].replace('.com', '')];
 
-	rule.removeAds();
+	const throttle = (fn,threshold = 1000) =>{
+		let timer;
+		let _last = false;
 
-	// console.log(document.body);
+		return (e)=>{
+			if(!_last){
+				_last = true;
+
+				fn(e);
+
+				timer = setTimeout(() => {
+					// reset
+					_last = null;
+				}, threshold);
+			}
+		}
+	}
 
 	const callback = function(mutationsList, observer) {
+		console.log(1);
 		rule && rule.removeAds();
 		// console.log(mutationsList);
 		/*for(let mutation of mutationsList) {
@@ -19,9 +34,11 @@ if(match){
 		}*/
 	};
 
-	const observer = new MutationObserver(callback);
+	const observer = new MutationObserver(throttle((e) => callback()));
 
 	observer.observe(document.body, {attributes: false, childList: true, subtree: true});
+
+	callback();
 
 } else{
 	// console.warning('No rule here');
