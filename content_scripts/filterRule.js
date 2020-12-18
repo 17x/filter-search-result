@@ -7,21 +7,18 @@ let filterRules = {
 			if(!oContentLeft || !oContentRight){
 				return
 			}
-			let list = [...oContentLeft.children];
+			let listLeft = [
+				...oContentLeft.children,
+			];
+			let listRight= [
+				...oContentRight.getElementsByTagName('a')
+			];
 
 			const determine = (ele) =>{
-				return ele.innerText.indexOf('广告') !== -1;
+				return ele.innerHTML.indexOf('data-tuiguang') !== -1;
 			}
 
-			Array.prototype.push.apply(list, [...oContentRight.children]);
-
-		/*	console.log(
-				oContentLeft.children.length,
-				oContentRight.children.length
-			);
-			console.log(list.length);*/
-
-			list.map(ele => {
+			listLeft.map(ele => {
 				if(determine(ele)){
 					let rect = ele.getBoundingClientRect();
 
@@ -31,6 +28,20 @@ let filterRules = {
 					ele.style.lineHeight = rect.height + 'px';
 					ele.style.textAlign = 'center';
 					ele.innerHTML = '<span>AD</span>';
+				}
+			});
+
+			listRight.map(ele => {
+				if(ele.innerText.indexOf('广告') !== -1){
+					let rect = ele.getBoundingClientRect();
+					let style=`
+						background-color:#ECECEC;
+						width:${rect.width}px;
+						height:${rect.height}px;
+						line-height:${rect.height}px;
+						text-align:center;					
+					`
+					ele.outerHTML = `<div style="${style}"><span>AD</span></div>`;
 				}
 			});
 		}
