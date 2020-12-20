@@ -1,2 +1,2 @@
 # filter-search-result
-filter baidu | google search result
+filter ad result in baidu, google, taobao, jd. 
