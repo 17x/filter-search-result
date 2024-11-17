@@ -1,64 +1,21 @@
 let funcs = {
   'baidu': {
     removeAd: () => {
-      let oContentLeft = document.getElementById('content_left');
-      let oContentRight = document.getElementById('content_right');
-
-      if (!oContentLeft || !oContentRight) {
-        return
-      }
-
-      let listLeft = [
-        ...oContentLeft.children,
+      [
+        ...document.querySelectorAll('#content_left>div:has([data-tuiguang])'),
         ...document.querySelectorAll('[data-click*=snapshot]')
-      ];
-      let listRight = [
-        ...oContentRight.getElementsByTagName('a')
-      ];
-
-      const determine = (ele) => {
-        return ele.innerHTML.indexOf('data-tuiguang') !== -1;
-      }
-
-      listLeft.map(ele => {
-        if (determine(ele)) {
-          let rect = ele.getBoundingClientRect();
-
-          ele.style.backgroundColor = '#ECECEC';
-          ele.style.width = rect.width + 'px';
-          ele.style.height = rect.height + 'px';
-          ele.style.lineHeight = rect.height + 'px';
-          ele.style.textAlign = 'center';
-          ele.innerHTML = '<span>AD</span>';
-        }
-      });
-
-      listRight.map(ele => {
-        if (ele.innerText.indexOf('广告') !== -1) {
-          let rect = ele.getBoundingClientRect();
-          let style = `
-						background-color:#ECECEC;
-						width:${rect.width}px;
-						height:${rect.height}px;
-						line-height:${rect.height}px;
-						text-align:center;					
-					`
-          ele.outerHTML = `<div style="${style}"><span>AD</span></div>`;
-        }
+      ].map(ele => {
+        ele.remove()
       });
     }
   },
   'google': {
     removeAd: () => {
-      let oTADs = document.getElementById('tads');
-
-      let list = [
+      [
         ...document.querySelectorAll('.uEierd'),
         ...document.querySelectorAll('.commercial-unit-desktop-top'),
-        ...oTADs ? oTADs.getElementsByTagName('div') : []
-      ];
-
-      list.map(ele => {
+        ...document.querySelectorAll('#tads div'),
+      ].map(ele => {
         ele.style.height = 0
         ele.style.opacity = 0
       });
@@ -66,21 +23,20 @@ let funcs = {
   },
   'taobao': {
     removeAd: () => {
-      let items = [...document.getElementsByTagName('img')]
+      [...document.getElementsByTagName('img')]
         .filter(ele => {
           return ele.className.includes('mainP4pPic')
         })
         .map(ele => ele.closest('a'))
-        .filter(ele => ele);
+        .filter(ele => ele)
+        .map(ele => {
+          ele.style.opacity = '0.02'
+          ele.style.pointerEvents = 'none'
 
-      items.map(ele => {
-        ele.style.opacity = '0.02'
-        ele.style.pointerEvents = 'none'
-
-        ;[...ele.getElementsByTagName('img')].map(img => {
-          img.src = ''
-        })
-      });
+          ;[...ele.getElementsByTagName('img')].map(img => {
+            img.src = ''
+          })
+        });
     },
     helper: () => {
       document.addEventListener('keydown', (e) => {
@@ -100,33 +56,34 @@ let funcs = {
   },
   'jd': {
     removeAd: () => {
-      let items = [...document.getElementsByClassName('p-promo-flag')]
+      [...document.getElementsByClassName('p-promo-flag')]
         .map(ele => ele.closest('.gl-i-wrap'))
-        .filter(ele => ele);
+        .filter(ele => ele)
+        .map(ele => {
+          ele.style.opacity = '0.02'
+          ele.style.pointerEvents = 'none'
 
-      items.map(ele => {
-        ele.style.opacity = '0.02'
-        ele.style.pointerEvents = 'none'
-
-        ;[...ele.getElementsByTagName('img')].map(img => {
-          img.src = ''
-        })
-      });
+          ;[...ele.getElementsByTagName('img')].map(img => {
+            img.src = ''
+          })
+        });
     }
   },
   'bilibili': {
     removeAd: () => {
-      let items = [...document.querySelectorAll('.bili-video-card:has(.bili-video-card__info--ad)')]
-        .filter(ele => ele);
+      [
+        ...document.querySelectorAll('.bili-video-card:has(.bili-video-card__info--ad)'),
+        ...document.querySelectorAll('.bili-live-card:has(.bili-live-card__info--living)')
+      ]
+        .filter(ele => ele)
+        .map(ele => {
+          ele.style.opacity = '0'
+          ele.style.pointerEvents = 'none'
 
-      items.map(ele => {
-        ele.style.opacity = '0'
-        ele.style.pointerEvents = 'none'
-
-        ;[...ele.getElementsByTagName('img')].map(img => {
-          img.src = ''
-        })
-      });
+          ;[...ele.getElementsByTagName('img')].map(img => {
+            img.src = ''
+          })
+        });
     },
 
     helper: () => {
