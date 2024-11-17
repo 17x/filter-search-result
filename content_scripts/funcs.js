@@ -7,8 +7,10 @@ let funcs = {
       if (!oContentLeft || !oContentRight) {
         return
       }
+
       let listLeft = [
         ...oContentLeft.children,
+        ...document.querySelectorAll('[data-click*=snapshot]')
       ];
       let listRight = [
         ...oContentRight.getElementsByTagName('a')
