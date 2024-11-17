@@ -115,6 +115,20 @@ let funcs = {
     }
   },
   'bilibili': {
+    removeAd: () => {
+      let items = [...document.querySelectorAll('.bili-video-card:has(.bili-video-card__info--ad)')]
+        .filter(ele => ele);
+
+      items.map(ele => {
+        ele.style.opacity = '0'
+        ele.style.pointerEvents = 'none'
+
+        ;[...ele.getElementsByTagName('img')].map(img => {
+          img.src = ''
+        })
+      });
+    },
+
     helper: () => {
       const ele = document.querySelector('.bpx-player-ending-wrap')
       const isBangumi = location.host.match(/bilibili.com\/bangumi/);
