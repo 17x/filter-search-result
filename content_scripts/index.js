@@ -5,49 +5,39 @@ let match = location.host.match(reg);
 if (match) {
   rule = funcs[match[0].replace('.com', '')];
 
-  const throttle = (fn, threshold = 1000) => {
-    let timer;
-    let _last = false;
+  let {removeAd, helper} = rule
 
-    return (e) => {
-      if (!_last) {
-        _last = true;
+  if (removeAd) {
+    const throttle = (fn, threshold = 1000) => {
+      let timer;
+      let _last = false;
 
-        fn(e);
+      return (e) => {
+        if (!_last) {
+          _last = true;
 
-        timer = setTimeout(() => {
-          // reset
-          _last = null;
-        }, threshold);
+          fn(e);
+
+          timer = setTimeout(() => {
+            // reset
+            _last = null;
+          }, threshold);
+        }
       }
     }
+
+    const observer = new MutationObserver(throttle((e) => removeAd(),100));
+
+    observer.observe(document.body, {attributes: false, childList: true, subtree: true});
+
+    removeAd();
+
+    document.addEventListener("DOMContentLoaded", removeAd);
   }
 
-  // function for remove ads
-  const rmAd = function (mutationsList, observer) {
-    rule && rule.removeAd();
-    // console.log(mutationsList);
-    /*for(let mutation of mutationsList) {
-      if (mutation.type === 'childList') {
-        console.log('A child node has been added or removed.');
-      }
-    }*/
-  };
-
-
-  const observer = new MutationObserver(throttle((e) => rmAd()));
-
-  observer.observe(document.body, {attributes: false, childList: true, subtree: true});
-
-  rmAd();
-
-  document.addEventListener("DOMContentLoaded", () => {
-    rmAd()
-  });
-
   window.addEventListener("load", () => {
-    rmAd()
-    rule && rule.helper && rule.helper()
+    removeAd && removeAd()
+    helper && helper()
   });
 
 } else {

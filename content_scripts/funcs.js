@@ -78,7 +78,7 @@ let funcs = {
         })
         .map(ele => ele.closest('a'))
         .filter(ele => ele);
-
+      console.log(items)
       items.map(ele => {
         ele.style.opacity = '0.02'
         ele.style.pointerEvents = 'none'
@@ -89,16 +89,13 @@ let funcs = {
       });
     },
     helper: () => {
-      // next-pagination-pages
-      let prev = document.querySelector('.next-pagination-pages .next-prev')
-      let next = document.querySelector('.next-pagination-pages .next-next')
-
       document.addEventListener('keydown', (e) => {
         if(e.key === 'ArrowLeft'){
           let prev = document.querySelector('.next-pagination-pages .next-prev')
 
           prev && prev.click()
         }
+
         if(e.key === 'ArrowRight'){
           let next = document.querySelector('.next-pagination-pages .next-next')
 
