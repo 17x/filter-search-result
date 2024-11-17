@@ -1,6 +1,6 @@
 // let lists = ['baidu.com', 'google.com'];
 let rule = null;
-let reg = /baidu.com|google.com|taobao.com|jd.com/g;
+let reg = /baidu.com|google.com|taobao.com|jd.com|bilibili.com/g;
 let match = location.host.match(reg);
 if (match) {
   rule = funcs[match[0].replace('.com', '')];

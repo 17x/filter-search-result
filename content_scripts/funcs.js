@@ -123,19 +123,25 @@ let funcs = {
   'blackList': [],
   'bilibili': {
     helper: () => {
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-          let prev = document.querySelector('.next-pagination-pages .next-prev')
+      const ele = document.querySelector('.bpx-player-ending-wrap')
+      const isBangumi = location.host.match(/bilibili.com\/bangumi/);
 
-          prev && prev.click()
+      if (ele && !isBangumi) {
+        const func = (e) => {
+          const style = window.getComputedStyle(ele);
+
+          if (style.visibility === 'visible') {
+            setTimeout(() => {
+              const btn = document.querySelector('.bpx-player-ending-related-item-cancel')
+              btn && btn.click()
+            }, 0)
+          }
         }
 
-        if (e.key === 'ArrowRight') {
-          let next = document.querySelector('.next-pagination-pages .next-next')
+        const observer = new MutationObserver(func);
 
-          next && next.click()
-        }
-      })
+        observer.observe(ele, {attributes: true});
+      }
     }
 
   }
