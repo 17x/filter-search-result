@@ -2,44 +2,55 @@
 let rule = null;
 let reg = /baidu.com|google.com|taobao.com|jd.com/g;
 let match = location.host.match(reg);
-if(match){
-	rule = filterRules[match[0].replace('.com', '')];
+if (match) {
+  rule = funcs[match[0].replace('.com', '')];
 
-	const throttle = (fn,threshold = 1000) =>{
-		let timer;
-		let _last = false;
+  const throttle = (fn, threshold = 1000) => {
+    let timer;
+    let _last = false;
 
-		return (e)=>{
-			if(!_last){
-				_last = true;
+    return (e) => {
+      if (!_last) {
+        _last = true;
 
-				fn(e);
+        fn(e);
 
-				timer = setTimeout(() => {
-					// reset
-					_last = null;
-				}, threshold);
-			}
-		}
-	}
+        timer = setTimeout(() => {
+          // reset
+          _last = null;
+        }, threshold);
+      }
+    }
+  }
 
-	const callback = function(mutationsList, observer) {
-		rule && rule.removeAds();
-		// console.log(mutationsList);
-		/*for(let mutation of mutationsList) {
-			if (mutation.type === 'childList') {
-				console.log('A child node has been added or removed.');
-			}
-		}*/
-	};
+  // function for remove ads
+  const rmAd = function (mutationsList, observer) {
+    rule && rule.removeAd();
+    // console.log(mutationsList);
+    /*for(let mutation of mutationsList) {
+      if (mutation.type === 'childList') {
+        console.log('A child node has been added or removed.');
+      }
+    }*/
+  };
 
-	const observer = new MutationObserver(throttle((e) => callback()));
 
-	observer.observe(document.body, {attributes: false, childList: true, subtree: true});
+  const observer = new MutationObserver(throttle((e) => rmAd()));
 
-	callback();
+  observer.observe(document.body, {attributes: false, childList: true, subtree: true});
 
-} else{
-	// console.warning('No rule here');
-	// throw new Error('No rule here');
+  rmAd();
+
+  document.addEventListener("DOMContentLoaded", () => {
+    rmAd()
+  });
+
+  window.addEventListener("load", () => {
+    rmAd()
+    rule && rule.helper && rule.helper()
+  });
+
+} else {
+  // console.warning('No rule here');
+  // throw new Error('No rule here');
 }

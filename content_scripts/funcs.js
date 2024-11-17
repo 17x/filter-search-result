@@ -1,0 +1,140 @@
+let funcs = {
+  'baidu': {
+    removeAd: () => {
+      let oContentLeft = document.getElementById('content_left');
+      let oContentRight = document.getElementById('content_right');
+
+      if (!oContentLeft || !oContentRight) {
+        return
+      }
+      let listLeft = [
+        ...oContentLeft.children,
+      ];
+      let listRight = [
+        ...oContentRight.getElementsByTagName('a')
+      ];
+
+      const determine = (ele) => {
+        return ele.innerHTML.indexOf('data-tuiguang') !== -1;
+      }
+
+      listLeft.map(ele => {
+        if (determine(ele)) {
+          let rect = ele.getBoundingClientRect();
+
+          ele.style.backgroundColor = '#ECECEC';
+          ele.style.width = rect.width + 'px';
+          ele.style.height = rect.height + 'px';
+          ele.style.lineHeight = rect.height + 'px';
+          ele.style.textAlign = 'center';
+          ele.innerHTML = '<span>AD</span>';
+        }
+      });
+
+      listRight.map(ele => {
+        if (ele.innerText.indexOf('广告') !== -1) {
+          let rect = ele.getBoundingClientRect();
+          let style = `
+						background-color:#ECECEC;
+						width:${rect.width}px;
+						height:${rect.height}px;
+						line-height:${rect.height}px;
+						text-align:center;					
+					`
+          ele.outerHTML = `<div style="${style}"><span>AD</span></div>`;
+        }
+      });
+    }
+  },
+  'google': {
+    removeAd: () => {
+      let oTADs = document.getElementById('tads');
+      if (!oTADs) return;
+      let list = [
+        ...oTADs.getElementsByTagName('div')
+      ];
+
+      // console.log(list);
+
+      list.map(ele => {
+        // if(ele.innerText.indexOf('广告') !== -1){}
+        let rect = ele.getBoundingClientRect();
+
+        ele.style.backgroundColor = '#ECECEC';
+        ele.style.width = rect.width + 'px';
+        ele.style.height = rect.height + 'px';
+        ele.style.lineHeight = rect.height + 'px';
+        ele.style.textAlign = 'center';
+        ele.innerHTML = '<span>AD</span>';
+
+      });
+    }
+  },
+  'taobao': {
+    removeAd: () => {
+      let items = [...document.getElementsByTagName('img')]
+        .filter(ele => {
+          return ele.className.includes('mainP4pPic')
+        })
+        .map(ele => ele.closest('a'))
+        .filter(ele => ele);
+
+      items.map(ele => {
+        ele.style.opacity = '0.02'
+        ele.style.pointerEvents = 'none'
+
+        ;[...ele.getElementsByTagName('img')].map(img => {
+          img.src = ''
+        })
+      });
+    },
+    helper: () => {
+      // next-pagination-pages
+      let prev = document.querySelector('.next-pagination-pages .next-prev')
+      let next = document.querySelector('.next-pagination-pages .next-next')
+
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowLeft'){
+          let prev = document.querySelector('.next-pagination-pages .next-prev')
+
+          prev && prev.click()
+        }
+        if(e.key === 'ArrowRight'){
+          let next = document.querySelector('.next-pagination-pages .next-next')
+
+          next && next.click()
+        }
+      })
+    }
+  },
+  'jd': {
+    removeAd: () => {
+      let items = [...document.getElementsByClassName('gl-item')].filter(ele =>
+        ele.getAttribute('ware-type') === '0'
+      );
+
+      if (items.length === 0) {
+        return;
+      }
+
+      items.map(ele => {
+        let rect = ele.getBoundingClientRect();
+        let cover = document.createElement('div');
+
+        cover.style.backgroundColor = '#ECECEC';
+        cover.style.width = '100%';
+        cover.style.height = '100%';
+        cover.style.lineHeight = '100%';
+        cover.style.textAlign = 'center';
+        cover.style.position = 'absolute';
+        cover.style.top = '0';
+        cover.style.left = '0';
+        cover.style.zIndex = '5';
+        cover.innerHTML = 'AD';
+
+        ele.append(cover)
+      });
+    }
+  },
+  'blackList': []
+};

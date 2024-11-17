@@ -1,18 +1,19 @@
 {
-	"name": "Filter search result",
-	"description" : "Filter search engine results",
-	"version": "1.0",
-	"manifest_version": 2,
+	"name": "m-helper",
+	"description": "Filter search engine results",
+	"version": "2.0",
+	"manifest_version": 3,
 	"permissions": [
 		"activeTab",
-		"declarativeContent",
 		"storage"
 	],
+	"host_permissions": [
+		"*://*/*"
+	],
 	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
+
 	},
-	"browser_action": {
+	"action": {
 		"default_popup": "popup/index.html",
 		"default_icon": "images/e_icon.png"
 	},
@@ -22,15 +23,14 @@
 			"matches": [
 				"*://*/*"
 			],
-			"all_frames": false,
 			"js": [
-				"content_scripts/filterRule.js",
+				"content_scripts/funcs.js",
 				"content_scripts/index.js"
 			]
 		}
 	],
 	"commands": {
-		"_execute_browser_action": {
+		"_execute_action": {
 			"suggested_key": {
 				"default": "Ctrl+Shift+F",
 				"mac": "MacCtrl+Shift+F"
