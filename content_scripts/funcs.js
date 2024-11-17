@@ -78,7 +78,7 @@ let funcs = {
         })
         .map(ele => ele.closest('a'))
         .filter(ele => ele);
-      console.log(items)
+
       items.map(ele => {
         ele.style.opacity = '0.02'
         ele.style.pointerEvents = 'none'
