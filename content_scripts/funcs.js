@@ -51,24 +51,16 @@ let funcs = {
   'google': {
     removeAd: () => {
       let oTADs = document.getElementById('tads');
-      if (!oTADs) return;
+
       let list = [
-        ...oTADs.getElementsByTagName('div')
+        ...document.querySelectorAll('.uEierd'),
+        ...document.querySelectorAll('.commercial-unit-desktop-top'),
+        ...oTADs ? oTADs.getElementsByTagName('div') : []
       ];
 
-      // console.log(list);
-
       list.map(ele => {
-        // if(ele.innerText.indexOf('广告') !== -1){}
-        let rect = ele.getBoundingClientRect();
-
-        ele.style.backgroundColor = '#ECECEC';
-        ele.style.width = rect.width + 'px';
-        ele.style.height = rect.height + 'px';
-        ele.style.lineHeight = rect.height + 'px';
-        ele.style.textAlign = 'center';
-        ele.innerHTML = '<span>AD</span>';
-
+        ele.style.height = 0
+        ele.style.opacity = 0
       });
     }
   },
