@@ -114,7 +114,6 @@ let funcs = {
       });
     }
   },
-  'blackList': [],
   'bilibili': {
     helper: () => {
       const ele = document.querySelector('.bpx-player-ending-wrap')
@@ -137,7 +136,6 @@ let funcs = {
         observer.observe(ele, {attributes: true});
       }
     }
-
-  }
-
+  },
+  'blackList': [],
 };
