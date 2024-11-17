@@ -26,7 +26,7 @@ if (match) {
       }
     }
 
-    const observer = new MutationObserver(throttle((e) => removeAd(),100));
+    const observer = new MutationObserver(throttle((e) => removeAd(), 100));
 
     observer.observe(document.body, {attributes: false, childList: true, subtree: true});
 

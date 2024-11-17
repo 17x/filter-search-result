@@ -90,13 +90,13 @@ let funcs = {
     },
     helper: () => {
       document.addEventListener('keydown', (e) => {
-        if(e.key === 'ArrowLeft'){
+        if (e.key === 'ArrowLeft') {
           let prev = document.querySelector('.next-pagination-pages .next-prev')
 
           prev && prev.click()
         }
 
-        if(e.key === 'ArrowRight'){
+        if (e.key === 'ArrowRight') {
           let next = document.querySelector('.next-pagination-pages .next-next')
 
           next && next.click()
@@ -106,32 +106,38 @@ let funcs = {
   },
   'jd': {
     removeAd: () => {
-      let items = [...document.getElementsByClassName('gl-item')].filter(ele =>
-        ele.getAttribute('ware-type') === '0'
-      );
-
-      if (items.length === 0) {
-        return;
-      }
+      let items = [...document.getElementsByClassName('p-promo-flag')]
+        .map(ele => ele.closest('.gl-i-wrap'))
+        .filter(ele => ele);
 
       items.map(ele => {
-        let rect = ele.getBoundingClientRect();
-        let cover = document.createElement('div');
+        ele.style.opacity = '0.02'
+        ele.style.pointerEvents = 'none'
 
-        cover.style.backgroundColor = '#ECECEC';
-        cover.style.width = '100%';
-        cover.style.height = '100%';
-        cover.style.lineHeight = '100%';
-        cover.style.textAlign = 'center';
-        cover.style.position = 'absolute';
-        cover.style.top = '0';
-        cover.style.left = '0';
-        cover.style.zIndex = '5';
-        cover.innerHTML = 'AD';
-
-        ele.append(cover)
+        ;[...ele.getElementsByTagName('img')].map(img => {
+          img.src = ''
+        })
       });
     }
   },
-  'blackList': []
+  'blackList': [],
+  'bilibili': {
+    helper: () => {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          let prev = document.querySelector('.next-pagination-pages .next-prev')
+
+          prev && prev.click()
+        }
+
+        if (e.key === 'ArrowRight') {
+          let next = document.querySelector('.next-pagination-pages .next-next')
+
+          next && next.click()
+        }
+      })
+    }
+
+  }
+
 };
